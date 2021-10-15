@@ -7,10 +7,37 @@ import jptv20_bootsshop.classes.History;
 import jptv20_bootsshop.classes.Product;
 
 public class JPTV20_BootsShop {
+    Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
+    public Product addProduct(){
+        Product product = new Product();
+        System.out.print("Производитель: ");
+        product.setBrand(scanner.next());
+        System.out.print("Тип: ");
+        product.setType(scanner.next());
+        System.out.print("Размер: ");
+        product.setSize(scanner.nextInt());
+        System.out.print("Цена: ");
+        product.setPrice(scanner.nextDouble());
+        
+        return product;
+    }
+    
+    public Customer addCustomer(){
+        Customer customer = new Customer();
+        System.out.print("Имя: ");
+        customer.setFirstname(scanner.next());
+        System.out.print("Фамилия: ");
+        customer.setSurename(scanner.next());
+        System.out.print("Телефон: ");
+        customer.setphoneNumber(scanner.next());
+        System.out.print("Счет: ");
+        customer.setWallet(scanner.nextDouble());
+        
+        return customer;
+    }
+    
+    public void main(String[] args) {
         Product[] products = new Product[10];
         int countOfProducts = 0;
         Customer[] customers = new Customer[10];
@@ -31,18 +58,8 @@ public class JPTV20_BootsShop {
             }else if (choise == 1){
                 //Добавить товар
                 if (countOfProducts < products.length) {
-                    System.out.print("Производитель: ");
-                    String brand = scanner.next();
-                    System.out.print("Тип: ");
-                    String type = scanner.next();
-                    System.out.print("Размер: ");
-                    int size = scanner.nextInt();
-                    System.out.print("Цена: ");
-                    Double price = scanner.nextDouble();
-                    
-                    products[countOfProducts] = new Product(brand, type, size, price);
+                    products[countOfProducts] = addProduct();
                     countOfProducts++;
-
                 } else {
                     System.out.println("\nМаксимальное количество товаров\n");
                 }
@@ -62,16 +79,7 @@ public class JPTV20_BootsShop {
             }else if (choise == 3){
                 //Добавить покупателя
                 if (countOfCustomers < customers.length) {
-                    System.out.print("Имя: ");
-                    String firstname = scanner.next();
-                    System.out.print("Фамилия: ");
-                    String surename = scanner.next();
-                    System.out.print("Телефон: ");
-                    String phoneNumber = scanner.next();
-                    System.out.print("Счет: ");
-                    Double wallet = scanner.nextDouble();
-                    
-                    customers[countOfCustomers] = new Customer(firstname, surename, phoneNumber, wallet);
+                    customers[countOfCustomers] = addCustomer();
                     countOfCustomers++;
 
                 } else {

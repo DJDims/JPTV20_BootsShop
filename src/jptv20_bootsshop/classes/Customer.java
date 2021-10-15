@@ -6,12 +6,12 @@ public class Customer {
     private String phoneNumber;
     private double wallet;
     
-    public Customer(String firstname, String surename, String phoneNumber, double wallet) {
-        this.firstname = firstname;
-        this.surename = surename;
-        this.phoneNumber = phoneNumber;
-        this.wallet = wallet;
-    }
+//    public Customer(String firstname, String surename, String phoneNumber, double wallet) {
+//        this.firstname = firstname;
+//        this.surename = surename;
+//        this.phoneNumber = phoneNumber;
+//        this.wallet = wallet;
+//    }
 
     public String getFirstname() {
         return firstname;

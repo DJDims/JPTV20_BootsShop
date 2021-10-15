@@ -7,12 +7,12 @@ public class Product {
     private int size;
     private double price;
 
-    public Product(String brand, String type, int size, double price) {
-        this.brand = brand;
-        this.type = type;
-        this.size = size;
-        this.price = price;
-    }
+//    public Product(String brand, String type, int size, double price) {
+//        this.brand = brand;
+//        this.type = type;
+//        this.size = size;
+//        this.price = price;
+//    }
 
     public String getBrand() {
         return brand;
