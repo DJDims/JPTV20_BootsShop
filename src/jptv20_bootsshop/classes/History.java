@@ -8,11 +8,11 @@ public class History {
     public Customer customer;
     public LocalDate purchase;
     
-    public History(Product product, Customer customer) {
-        this.product = product;
-        this.customer = customer;
-        this.purchase = LocalDate.now();
-    }
+    // public History(Product product, Customer customer) {
+    //     this.product = product;
+    //     this.customer = customer;
+    //     this.purchase = LocalDate.now();
+    // }
 
     public Product getProduct() {
         return product;
@@ -35,7 +35,7 @@ public class History {
     }
 
     public void setPurchase(LocalDate purchase) {
-        this.purchase = purchase;
+        this.purchase = LocalDate.now();
     }
 
     @Override
