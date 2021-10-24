@@ -1,5 +1,5 @@
 
-package jptv20_bootsshop.classes;
+package classes;
 
 public class Product {
     private String brand;

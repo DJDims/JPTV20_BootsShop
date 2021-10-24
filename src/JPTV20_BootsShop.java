@@ -1,10 +1,5 @@
-
-package jptv20_bootsshop;
-
 import java.util.Scanner;
-import jptv20_bootsshop.classes.Customer;
-import jptv20_bootsshop.classes.History;
-import jptv20_bootsshop.classes.Product;
+import classes.*;
 
 public class JPTV20_BootsShop {
     public static void main(String[] args) {

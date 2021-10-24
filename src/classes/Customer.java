@@ -1,4 +1,4 @@
-package jptv20_bootsshop.classes;
+package classes;
 
 public class Customer {
     private String firstname;
