@@ -28,7 +28,8 @@ public class App {
     
     public void run(){
         while (appRunning) {
-            System.out.println("\nВыберите опцию\n0) Выход\n1) Добавить товар\n2) Вывести список товаров\n3) Добавить покупателя\n4) Вывести список покупателей\n5) Совершить покупку\n6) Вывести список покупок\n7) Прибыль магазина\n8) Вывести подсказки\n");
+            System.out.println("\nВыберите опцию\n0) Выход\n1) Добавить товар\n2) Вывести список товаров\n3) Добавить покупателя\n4) Вывести список покупателей\n5) Совершить покупку\n6) Вывести список покупок\n7) Прибыль магазина");
+            System.out.print("Опция: ");
             int choise = scanner.nextInt();
 
             switch (choise) {
@@ -73,41 +74,13 @@ public class App {
                     break;
                 case 5:
                     //Совершить покупку
-                    if (productsArray.isEmpty() || customersArray.isEmpty()) {
-                        System.out.println("\nОперация невозможна\n");
+                    if (!productsArray.isEmpty() || !customersArray.isEmpty()) {
+                        historysArray.add(addHistory());
+                        keeping.saveHistorys(historysArray);
+                        keeping.saveCustomers(customersArray);
+                        keeping.saveStonks(shopStonks);
                     }else{
-                        //----- Выбор товара -----
-                        System.out.println("Выберите товар:");
-                        for (int i = 0; i < productsArray.size(); i++) {
-                            System.out.println(i+1 + ")" + productsArray.get(i).getBrand()+" "+ productsArray.get(i).getPrice()+"€");
-                        }
-                        int productChoise = scanner.nextInt();
-
-                        if (productChoise <= productsArray.size()) {
-                            //----- Выбор покупателя -----
-                            System.out.println("Выберите покупателя");
-                            for (int i = 0; i < customersArray.size(); i++) {
-                                System.out.println(i+1 + ")" + customersArray.get(i).getFirstname() +" "+ customersArray.get(i).getWallet()+"€");
-                            }
-                            int customerChoise = scanner.nextInt();
-
-                            if (customerChoise <= customersArray.size()){
-                                if (customersArray.get(customerChoise-1).getWallet() >= productsArray.get(productChoise-1).getPrice()) {
-                                    historysArray.add(addHistory(productsArray.get(productChoise-1), customersArray.get(customerChoise-1)));
-                                    customersArray.get(customerChoise-1).setWallet(customersArray.get(customerChoise-1).getWallet() - productsArray.get(productChoise-1).getPrice());
-                                    shopStonks += productsArray.get(productChoise-1).getPrice();
-                                    keeping.saveHistorys(historysArray);
-                                    keeping.saveCustomers(customersArray);
-                                    keeping.saveStonks(shopStonks);
-                                }else{
-                                    System.out.println("Недостаточно денег");
-                                }
-                            }else{
-                                System.out.println("Ошибочный номер покупателя");
-                            }
-                        }else{
-                            System.out.println("Ошибочный номер продукта");
-                        }
+                        System.out.println("\nОперация невозможна\n");
                     }
                     break;
 
@@ -174,10 +147,33 @@ public class App {
         return customer;
     }
 
-    public History addHistory(Product product, Customer customer){
+    public History addHistory(){
         History history = new History();
-        history.setProduct(product);
-        history.setCustomer(customer);
+        
+        //----- Выбор товара -----
+        System.out.println("Выберите товар:");
+        for (int i = 0; i < productsArray.size(); i++) {
+            System.out.println(i+1 + ")" + productsArray.get(i).getBrand()+" "+ productsArray.get(i).getPrice()+"€");
+        }
+        int productChoise = scanner.nextInt();
+        //----- Выбор товара -----
+        
+        //----- Выбор покупателя -----
+        System.out.println("Выберите покупателя:");
+        for (int i = 0; i < customersArray.size(); i++) {
+            System.out.println(i+1 + ")" + customersArray.get(i).getFirstname()+" "+ customersArray.get(i).getWallet()+"€");
+        }
+        int customerChoise = scanner.nextInt();
+        //----- Выбор покупателя -----
+        
+        if (customersArray.get(customerChoise-1).getWallet() >= productsArray.get(productChoise-1).getPrice()) {
+            history.setCustomer(customersArray.get(customerChoise-1));
+            history.setProduct(productsArray.get(productChoise-1));
+            customersArray.get(customerChoise-1).setWallet(customersArray.get(customerChoise-1).getWallet() - productsArray.get(productChoise-1).getPrice());
+            shopStonks += productsArray.get(productChoise-1).getPrice();
+        } else {
+            System.out.println("Недостаточно денег");
+        }
 
         return history;
     }
