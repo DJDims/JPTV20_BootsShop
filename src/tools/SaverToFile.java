@@ -12,117 +12,156 @@ import java.util.logging.Logger;
 import classes.Customer;
 import classes.History;
 import classes.Product;
-import ui.Keeping;
+import Interfaces.Keeping;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaverToFile implements Keeping{
     @Override
-    public void saveProducts(Product[] products){
+    public void saveProducts(List<Product> productsArray){
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
-            fos = new FileOutputStream("/data");
+            fos = new FileOutputStream("data/Products");
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(products);
+            oos.writeObject(productsArray);
             oos.flush();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "no such file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         } catch (IOException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "no such file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
         }
     }
 
     @Override
-    public Product[] loadProducts() {
-        Product[] products = new Product[20];
+    public List<Product> loadProducts() {
+        List<Product> productsArray = new ArrayList<>();
         FileInputStream fis = null;
         ObjectInputStream ois = null;
 
         try {
-            fis = new FileInputStream("/data");
+            fis = new FileInputStream("data/Products");
             ois = new ObjectInputStream(fis);
-            products = (Product[]) ois.readObject();
+            productsArray = (List<Product>) ois.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "file not created", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         } catch (IOException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "error to read file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "class Person not found or created", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         }
 
-        return products;
+        return productsArray;
     }
 
     @Override
-    public void saveCustomers(Customer[] customers) {
+    public void saveCustomers(List<Customer> customersArray) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
-            fos = new FileOutputStream("/data");
+            fos = new FileOutputStream("data/Customers");
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(customers);
+            oos.writeObject(customersArray);
             oos.flush();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "no such file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         } catch (IOException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "no such file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
         }
     }
 
     @Override
-    public Customer[] loadCustomers() {
-        Customer[] customers = new Customer[20];
+    public List<Customer> loadCustomers() {
+        List<Customer> customersArray = new ArrayList<>();
         FileInputStream fis = null;
         ObjectInputStream ois = null;
 
         try {
-            fis = new FileInputStream("/data");
+            fis = new FileInputStream("data/Customers");
             ois = new ObjectInputStream(fis);
-            customers = (Customer[]) ois.readObject();
+            customersArray = (List<Customer>) ois.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "file not created", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         } catch (IOException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "error to read file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "class Person not found or created", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         }
 
-        return customers;
+        return customersArray;
     }
 
     @Override
-    public void saveHistorys(History[] historys) {
+    public void saveHistorys(List<History> historysArray) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
-            fos = new FileOutputStream("/data");
+            fos = new FileOutputStream("data/Historys");
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(historys);
+            oos.writeObject(historysArray);
             oos.flush();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "no such file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         } catch (IOException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "no such file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
         }
     }
 
     @Override
-    public History[] loadHistory() {
-        History[] historys = new History[20];
+    public List<History> loadHistory() {
+        List<History> historysArray = new ArrayList<>();
         FileInputStream fis = null;
         ObjectInputStream ois = null;
 
         try {
-            fis = new FileInputStream("/data");
+            fis = new FileInputStream("data/Historys");
             ois = new ObjectInputStream(fis);
-            historys = (History[]) ois.readObject();
+            historysArray = (List<History>) ois.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "file not created", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         } catch (IOException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "error to read file", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "class Person not found or created", ex);
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
         }
 
-        return historys;
+        return historysArray;
+    }
+
+    @Override
+    public void saveStonks(double shopStonks) {
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = new FileOutputStream("data/Stonks");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(shopStonks);
+            oos.flush();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
+        }
+    }
+
+    @Override
+    public double loadStonks() {
+        double shopStonks = 0;
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+
+        try {
+            fis = new FileInputStream("data/Stonks");
+            ois = new ObjectInputStream(fis);
+            shopStonks = (double) ois.readObject();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
+        }
+
+        return shopStonks;
     }
 }

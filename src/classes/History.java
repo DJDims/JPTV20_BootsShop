@@ -1,12 +1,13 @@
 
 package classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class History {
-    public Product product;
-    public Customer customer;
-    public LocalDate purchase;
+public class History implements Serializable {
+    private Product product;
+    private Customer customer;
+    private LocalDate purchase;
     
     public History() {
         this.purchase = LocalDate.now();
@@ -37,8 +38,8 @@ public class History {
     }
 
     @Override
-    public String toString(){
-        return product + "\n Покупатель " + customer + "\tКуплено " + purchase;
+    public String toString() {
+        return "History{" + "product=" + product + ", customer=" + customer + ", purchase=" + purchase + '}';
     }
 }
 

@@ -1,3 +1,4 @@
+import Interfaces.Keeping;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -5,19 +6,27 @@ import java.util.Scanner;
 import classes.Customer;
 import classes.History;
 import classes.Product;
+import tools.SaverToFile;
 
 public class App {
-    static Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
+    Keeping keeping = new SaverToFile();
+    
     boolean appRunning = true;
+    double shopStonks = 0;
 
     List<Customer> customersArray = new ArrayList<>();
     List<History> historysArray = new ArrayList<>();
     List<Product> productsArray = new ArrayList<>();
+
+    public App() {
+        customersArray = keeping.loadCustomers();
+        historysArray = keeping.loadHistory();
+        productsArray = keeping.loadProducts();
+        shopStonks = keeping.loadStonks();
+    }
     
     public void run(){
-
-        double shopStonks = 0;
-
         while (appRunning) {
             System.out.println("\nВыберите опцию\n0) Выход\n1) Добавить товар\n2) Вывести список товаров\n3) Добавить покупателя\n4) Вывести список покупателей\n5) Совершить покупку\n6) Вывести список покупок\n7) Прибыль магазина\n8) Вывести подсказки\n");
             int choise = scanner.nextInt();
@@ -31,6 +40,7 @@ public class App {
                 case 1:
                     //Добавить товар
                     productsArray.add(addProduct());
+                    keeping.saveProducts(productsArray);
                     break;
                 case 2:
                     //Вывести список товаров
@@ -47,6 +57,7 @@ public class App {
                 case 3:
                     //Добавить покупателя
                     customersArray.add(addCustomer());
+                    keeping.saveCustomers(customersArray);
                     break;
                 case 4:
                     //Вывести список покупателей
@@ -85,6 +96,9 @@ public class App {
                                     historysArray.add(addHistory(productsArray.get(productChoise-1), customersArray.get(customerChoise-1)));
                                     customersArray.get(customerChoise-1).setWallet(customersArray.get(customerChoise-1).getWallet() - productsArray.get(productChoise-1).getPrice());
                                     shopStonks += productsArray.get(productChoise-1).getPrice();
+                                    keeping.saveHistorys(historysArray);
+                                    keeping.saveCustomers(customersArray);
+                                    keeping.saveStonks(shopStonks);
                                 }else{
                                     System.out.println("Недостаточно денег");
                                 }

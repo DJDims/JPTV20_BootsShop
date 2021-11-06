@@ -1,18 +1,13 @@
 
 package classes;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private String brand;
     private String type;
     private int size;
     private double price;
-
-//    public Product(String brand, String type, int size, double price) {
-//        this.brand = brand;
-//        this.type = type;
-//        this.size = size;
-//        this.price = price;
-//    }
 
     public String getBrand() {
         return brand;
@@ -45,9 +40,9 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
-    
+
     @Override
-    public String toString(){
-        return "Производитель обуви " + brand + "\tТип " + type + "\tРазмер " + size + "\tЦена " + price + "€";
+    public String toString() {
+        return "Product{" + "brand=" + brand + ", type=" + type + ", size=" + size + ", price=" + price + '}';
     }
 }
