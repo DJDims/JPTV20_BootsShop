@@ -8,11 +8,9 @@ public class History {
     public Customer customer;
     public LocalDate purchase;
     
-    // public History(Product product, Customer customer) {
-    //     this.product = product;
-    //     this.customer = customer;
-    //     this.purchase = LocalDate.now();
-    // }
+    public History() {
+        this.purchase = LocalDate.now();
+    }
 
     public Product getProduct() {
         return product;
