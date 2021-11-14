@@ -2,15 +2,34 @@
 package classes;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+@Entity
 public class History implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Product product;
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Customer customer;
-    private LocalDate purchase;
-    
-    public History() {
-        this.purchase = LocalDate.now();
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date purchase;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Product getProduct() {
@@ -29,14 +48,14 @@ public class History implements Serializable {
         this.customer = customer;
     }
 
-    public LocalDate getPurchase() {
+    public Date getPurchase() {
         return purchase;
     }
 
-    public void setPurchase(LocalDate purchase) {
-        this.purchase = LocalDate.now();
+    public void setPurchase(Date purchase) {
+        this.purchase = purchase;
     }
-
+    
     @Override
     public String toString() {
         return "History{" + "product=" + product + ", customer=" + customer + ", purchase=" + purchase + '}';

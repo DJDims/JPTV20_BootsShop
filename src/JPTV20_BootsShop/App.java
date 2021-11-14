@@ -8,11 +8,16 @@ import java.util.Scanner;
 import classes.Customer;
 import classes.History;
 import classes.Product;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import tools.SaverToBase;
 import tools.SaverToFile;
 
 public class App {
     Scanner scanner = new Scanner(System.in);
-    Keeping keeping = new SaverToFile();
+//    Keeping keeping = new SaverToFile();
+    Keeping keeping = new SaverToBase();
     
     boolean appRunning = true;
     double shopStonks = 0;
@@ -140,7 +145,7 @@ public class App {
         customer.setSurename(scanner.next());
         
         System.out.print("Телефон: ");
-        customer.setphoneNumber(scanner.next());
+        customer.setPhoneNumber(scanner.next());
         
         System.out.print("Счет: ");
         customer.setWallet(scanner.nextDouble());
@@ -171,6 +176,7 @@ public class App {
         if (customersArray.get(customerChoise-1).getWallet() >= productsArray.get(productChoise-1).getPrice()) {
             history.setCustomer(customersArray.get(customerChoise-1));
             history.setProduct(productsArray.get(productChoise-1));
+            history.setPurchase(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             customersArray.get(customerChoise-1).setWallet(customersArray.get(customerChoise-1).getWallet() - productsArray.get(productChoise-1).getPrice());
             shopStonks += productsArray.get(productChoise-1).getPrice();
         } else {
