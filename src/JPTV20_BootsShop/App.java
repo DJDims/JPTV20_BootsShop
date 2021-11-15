@@ -10,6 +10,8 @@ import classes.History;
 import classes.Product;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
+
 import java.util.Date;
 import tools.SaverToBase;
 import tools.SaverToFile;
@@ -19,8 +21,12 @@ public class App {
 //    Keeping keeping = new SaverToFile();
     Keeping keeping = new SaverToBase();
     
+    Calendar calendar = Calendar.getInstance();
+    Date date = calendar.getTime();
+    
     boolean appRunning = true;
     double shopStonks = 0;
+    String[] monthsNames = {"янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"};
 
     List<Customer> customersArray = new ArrayList<>();
     List<History> historysArray = new ArrayList<>();
@@ -35,7 +41,16 @@ public class App {
     
     public void run(){
         while (appRunning) {
-            System.out.println("\nВыберите опцию\n0) Выход\n1) Добавить товар\n2) Вывести список товаров\n3) Добавить покупателя\n4) Вывести список покупателей\n5) Совершить покупку\n6) Вывести список покупок\n7) Прибыль магазина\n8) Добавить покупателю денег");
+            System.out.println("\nВыберите опцию\n"
+                    + "0) Выход\n1) Добавить товар\n"
+                    + "2) Вывести список товаров\n"
+                    + "3) Добавить покупателя\n"
+                    + "4) Вывести список покупателей\n"
+                    + "5) Совершить покупку\n"
+                    + "6) Вывести список покупок\n"
+                    + "7) Добавить покупателю денег\n"
+                    + "8) Прибыль магазина\n"
+                    + "9) Прибыль магазина за определенный месяц");
             System.out.print("Опция: ");
             int choise = scanner.nextInt();
 
@@ -104,10 +119,6 @@ public class App {
                     }
                     break;
                 case 7:
-                    //Вывести прибыль магазина
-                    System.out.println("\nПрибыль магазина " + shopStonks + "€\n");
-                    break;
-                case 8:
                     //Добавить покупателю денег
                     if (!customersArray.isEmpty()) {
                         System.out.println("---------- Список покупателей ----------");
@@ -123,6 +134,24 @@ public class App {
                         keeping.saveCustomers(customersArray);
                     } else {
                         System.out.println("\nНет добавленных покупателей\n");
+                    }
+                    break;
+                case 8:
+                    //Вывести прибыль магазина
+                    System.out.println("\nПрибыль магазина " + shopStonks + "€\n");
+                    break;
+                case 9:
+                    //вывести прибыль за определенный месяц
+                    System.out.print("Выберите месяц(1-12) -->");
+                    int month = scanner.nextInt();
+                    double stonks = 0;
+                    for (int i = 0; i < historysArray.size(); i++) {
+                        if (historysArray.get(i).getPurchase().getMonth()+1 == month) {
+                            stonks += historysArray.get(i).getProduct().getPrice();
+                        }
+                    }
+                    if (stonks != 0) {
+                       System.out.println("Прибыль магазина за " + monthsNames[month-1] + ": " + stonks + "€"); 
                     }
                     break;
                 default:
