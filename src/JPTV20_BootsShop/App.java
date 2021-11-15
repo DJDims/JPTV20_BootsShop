@@ -35,7 +35,7 @@ public class App {
     
     public void run(){
         while (appRunning) {
-            System.out.println("\nВыберите опцию\n0) Выход\n1) Добавить товар\n2) Вывести список товаров\n3) Добавить покупателя\n4) Вывести список покупателей\n5) Совершить покупку\n6) Вывести список покупок\n7) Прибыль магазина");
+            System.out.println("\nВыберите опцию\n0) Выход\n1) Добавить товар\n2) Вывести список товаров\n3) Добавить покупателя\n4) Вывести список покупателей\n5) Совершить покупку\n6) Вывести список покупок\n7) Прибыль магазина\n8) Добавить покупателю денег");
             System.out.print("Опция: ");
             int choise = scanner.nextInt();
 
@@ -106,6 +106,24 @@ public class App {
                 case 7:
                     //Вывести прибыль магазина
                     System.out.println("\nПрибыль магазина " + shopStonks + "€\n");
+                    break;
+                case 8:
+                    //Добавить покупателю денег
+                    if (!customersArray.isEmpty()) {
+                        System.out.println("---------- Список покупателей ----------");
+                        for (int i = 0; i < customersArray.size(); i++) {
+                            System.out.println(i+1 + ")" + customersArray.get(i).toString());
+                        }
+                        System.out.println("---------- Список покупателей ----------");
+                        System.out.print("Выберите покупателя --> ");
+                        int customerToAdd = scanner.nextInt();
+                        System.out.print("Сумма для добавления --> ");
+                        double moneyToAdd = scanner.nextDouble();
+                        customersArray.get(customerToAdd-1).setWallet(customersArray.get(customerToAdd-1).getWallet() + moneyToAdd);
+                        keeping.saveCustomers(customersArray);
+                    } else {
+                        System.out.println("\nНет добавленных покупателей\n");
+                    }
                     break;
                 default:
                     System.out.println("Введено неверное значение");
