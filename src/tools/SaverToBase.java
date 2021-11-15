@@ -14,7 +14,7 @@ import javax.persistence.Persistence;
 
 public class SaverToBase implements Keeping{
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV20_BootsShopPU");
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
     
@@ -83,15 +83,4 @@ public class SaverToBase implements Keeping{
         }
         return historysArray;
     }
-
-    @Override
-    public void saveStonks(double shopStonks) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double loadStonks() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

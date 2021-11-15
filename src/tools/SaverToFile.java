@@ -127,41 +127,4 @@ public class SaverToFile implements Keeping{
 
         return historysArray;
     }
-
-    @Override
-    public void saveStonks(double shopStonks) {
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-        try {
-            fos = new FileOutputStream("data/Stonks");
-            oos = new ObjectOutputStream(fos);
-            oos.writeObject(shopStonks);
-            oos.flush();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
-        } catch (IOException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
-        }
-    }
-
-    @Override
-    public double loadStonks() {
-        double shopStonks = 0;
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
-
-        try {
-            fis = new FileInputStream("data/Stonks");
-            ois = new ObjectInputStream(fis);
-            shopStonks = (double) ois.readObject();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
-        } catch (IOException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.SEVERE, "", ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SaverToFile.class.getName()).log(Level.INFO, "", ex);
-        }
-
-        return shopStonks;
-    }
 }

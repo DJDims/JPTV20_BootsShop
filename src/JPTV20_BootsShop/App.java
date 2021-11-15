@@ -30,7 +30,7 @@ public class App {
         customersArray = keeping.loadCustomers();
         historysArray = keeping.loadHistory();
         productsArray = keeping.loadProducts();
-        shopStonks = keeping.loadStonks();
+        shopStonks = countStonks();
     }
     
     public void run(){
@@ -85,7 +85,7 @@ public class App {
                         historysArray.add(addHistory());
                         keeping.saveHistorys(historysArray);
                         keeping.saveCustomers(customersArray);
-                        keeping.saveStonks(shopStonks);
+//                        keeping.saveStonks(shopStonks);
                     }else{
                         System.out.println("\nОперация невозможна\n");
                     }
@@ -184,5 +184,15 @@ public class App {
         }
 
         return history;
+    }
+    
+    private double countStonks(){
+        double stonks = 0;
+        
+        for (int i = 0; i < historysArray.size(); i++) {
+            stonks += historysArray.get(i).getProduct().getPrice();
+        }
+        
+        return stonks;
     }
 }

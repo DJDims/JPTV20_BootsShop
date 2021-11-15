@@ -15,7 +15,4 @@ public interface Keeping {
 
     public void saveHistorys(List<History> historysArray);
     public List<History> loadHistory();
-    
-    public void saveStonks(double shopStonks);
-    public double loadStonks();
 }
