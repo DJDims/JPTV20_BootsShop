@@ -52,7 +52,7 @@ public class App {
                     + "8) Прибыль магазина\n"
                     + "9) Прибыль магазина за определенный месяц");
             System.out.print("Опция: ");
-            int choise = scanner.nextInt();
+            int choise = inputInt();
 
             switch (choise) {
                 case 0:
@@ -127,7 +127,7 @@ public class App {
                         }
                         System.out.println("---------- Список покупателей ----------");
                         System.out.print("Выберите покупателя --> ");
-                        int customerToAdd = scanner.nextInt();
+                        int customerToAdd = inputInt();
                         System.out.print("Сумма для добавления --> ");
                         double moneyToAdd = scanner.nextDouble();
                         customersArray.get(customerToAdd-1).setWallet(customersArray.get(customerToAdd-1).getWallet() + moneyToAdd);
@@ -143,7 +143,7 @@ public class App {
                 case 9:
                     //вывести прибыль за определенный месяц
                     System.out.print("Выберите месяц(1-12) -->");
-                    int month = scanner.nextInt();
+                    int month = inputInt();
                     double stonks = 0;
                     for (int i = 0; i < historysArray.size(); i++) {
                         if (historysArray.get(i).getPurchase().getMonth()+1 == month) {
@@ -161,7 +161,7 @@ public class App {
         }
     }
 
-    public Product addProduct(){
+    private Product addProduct(){
         Product product = new Product();
         
         System.out.println(" ");
@@ -172,7 +172,7 @@ public class App {
         product.setType(scanner.next());
         
         System.out.print("Размер: ");
-        product.setSize(scanner.nextInt());
+        product.setSize(inputInt());
         
         System.out.print("Цена: ");
         product.setPrice(scanner.nextDouble());
@@ -181,7 +181,7 @@ public class App {
         return product;
     }
     
-    public Customer addCustomer(){
+    private Customer addCustomer(){
         Customer customer = new Customer();
 
         System.out.println(" ");
@@ -201,7 +201,7 @@ public class App {
         return customer;
     }
 
-    public History addHistory(){
+    private History addHistory(){
         History history = new History();
         
         //----- Выбор товара -----
@@ -209,7 +209,7 @@ public class App {
         for (int i = 0; i < productsArray.size(); i++) {
             System.out.println(i+1 + ")" + productsArray.get(i).getBrand()+" "+ productsArray.get(i).getPrice()+"€");
         }
-        int productChoise = scanner.nextInt();
+        int productChoise = inputInt();
         //----- Выбор товара -----
         
         //----- Выбор покупателя -----
@@ -217,7 +217,7 @@ public class App {
         for (int i = 0; i < customersArray.size(); i++) {
             System.out.println(i+1 + ")" + customersArray.get(i).getFirstname()+" "+ customersArray.get(i).getWallet()+"€");
         }
-        int customerChoise = scanner.nextInt();
+        int customerChoise = inputInt();
         //----- Выбор покупателя -----
         
         if (customersArray.get(customerChoise-1).getWallet() >= productsArray.get(productChoise-1).getPrice()) {
@@ -241,5 +241,17 @@ public class App {
         }
         
         return stonks;
+    }
+    
+    private int inputInt() {
+	do {
+            try {
+                String inputedNumber = scanner.next();
+                return Integer.parseInt(inputedNumber);
+            } catch(Exception e) {
+                System.out.println("Введены неверные данные.");
+                System.out.print("Попробуйте еще раз -->");
+            }
+	} while(true);
     }
 }
