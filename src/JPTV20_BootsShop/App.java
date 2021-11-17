@@ -175,7 +175,7 @@ public class App {
         product.setSize(inputInt());
         
         System.out.print("Цена: ");
-        product.setPrice(scanner.nextDouble());
+        product.setPrice(inputDouble());
         System.out.println(" ");
         
         return product;
@@ -195,7 +195,7 @@ public class App {
         customer.setPhoneNumber(scanner.next());
         
         System.out.print("Счет: ");
-        customer.setWallet(scanner.nextDouble());
+        customer.setWallet(inputDouble());
         System.out.println(" ");
 
         return customer;
@@ -248,6 +248,18 @@ public class App {
             try {
                 String inputedNumber = scanner.next();
                 return Integer.parseInt(inputedNumber);
+            } catch(Exception e) {
+                System.out.println("Введены неверные данные.");
+                System.out.print("Попробуйте еще раз -->");
+            }
+	} while(true);
+    }
+    
+    private double inputDouble() {
+	do {
+            try {
+                String inputedNumber = scanner.next();
+                return Double.parseDouble(inputedNumber);
             } catch(Exception e) {
                 System.out.println("Введены неверные данные.");
                 System.out.print("Попробуйте еще раз -->");
