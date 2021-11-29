@@ -4,7 +4,6 @@ import Facade.CustomerFacade;
 import Facade.HistoryFacade;
 import Facade.ProductFacade;
 import Interfaces.Keeping;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +16,6 @@ import java.util.Calendar;
 
 import java.util.Date;
 import tools.SaverToBase;
-import tools.SaverToFile;
 
 public class App {
     Scanner scanner = new Scanner(System.in);
