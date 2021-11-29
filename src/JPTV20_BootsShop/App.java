@@ -1,5 +1,8 @@
 package JPTV20_BootsShop;
 
+import Facade.CustomerFacade;
+import Facade.HistoryFacade;
+import Facade.ProductFacade;
 import Interfaces.Keeping;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +21,11 @@ import tools.SaverToFile;
 
 public class App {
     Scanner scanner = new Scanner(System.in);
-//    Keeping keeping = new SaverToFile();
     Keeping keeping = new SaverToBase();
+    
+    private CustomerFacade customerFacade;
+    private HistoryFacade historyFacade;
+    private ProductFacade productFacade;
     
     Calendar calendar = Calendar.getInstance();
     Date date = calendar.getTime();
@@ -28,20 +34,20 @@ public class App {
     double shopStonks = 0;
     String[] monthsNames = {"янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"};
 
-    List<Customer> customersArray = new ArrayList<>();
-    List<History> historysArray = new ArrayList<>();
-    List<Product> productsArray = new ArrayList<>();
-
     public App() {
-        customersArray = keeping.loadCustomers();
-        historysArray = keeping.loadHistory();
-        productsArray = keeping.loadProducts();
-        shopStonks = countStonks();
+        init();
+    }
+    
+    private void init(){
+        customerFacade = new CustomerFacade(Customer.class);
+        historyFacade = new HistoryFacade(History.class);
+        productFacade = new ProductFacade(Product.class);
     }
     
     public void run(){
+        shopStonks = countStonks();
         while (appRunning) {
-            
+            showHints();
             System.out.print("Опция: ");
             int choise = inputInt();
 
@@ -114,10 +120,10 @@ public class App {
         
         System.out.println(" ");
         System.out.print("Производитель: ");
-        product.setBrand(scanner.next());
+        product.setBrand(scanner.nextLine());
         
         System.out.print("Тип: ");
-        product.setType(scanner.next());
+        product.setType(scanner.nextLine());
         
         System.out.print("Размер: ");
         product.setSize(inputInt());
@@ -126,20 +132,22 @@ public class App {
         product.setPrice(inputDouble());
         System.out.println(" ");
         
-        productsArray.add(product);
-        keeping.saveProducts(productsArray);
+        productFacade.create(product);
     }
     
     private void showProducts(){
-        if (!productsArray.isEmpty()) {
-            System.out.println("---------- Список товаров ----------");
-            for (int i = 0; i < productsArray.size(); i++) {
-                System.out.println(i+1 + ")" + productsArray.get(i).toString());
-            }
-            System.out.println("---------- Список товаров ----------");
-        } else {
+        List<Product> productsArray = productFacade.findAll();
+        
+        if (productsArray.isEmpty()) {
             System.out.println("\nНет добавленных товаров\n");
+            return;
         }
+        
+        System.out.println("---------- Список товаров ----------");
+        for (int i = 0; i < productsArray.size(); i++) {
+            System.out.println(i+1 + ")" + productsArray.get(i).toString());
+        }
+        System.out.println("---------- Список товаров ----------");
     }
     
     private void addCustomer(){
@@ -147,35 +155,40 @@ public class App {
 
         System.out.println(" ");
         System.out.print("Имя: ");
-        customer.setFirstname(scanner.next());
+        customer.setFirstname(scanner.nextLine());
         
         System.out.print("Фамилия: ");
-        customer.setSurename(scanner.next());
+        customer.setSurename(scanner.nextLine());
         
         System.out.print("Телефон: ");
-        customer.setPhoneNumber(scanner.next());
+        customer.setPhoneNumber(scanner.nextLine());
         
         System.out.print("Счет: ");
         customer.setWallet(inputDouble());
         System.out.println(" ");
 
-        customersArray.add(customer);
-        keeping.saveCustomers(customersArray);
+        customerFacade.create(customer);
     }
 
     private void showCustomers(){
-        if (!customersArray.isEmpty()) {
-            System.out.println("---------- Список покупателей ----------");
-            for (int i = 0; i < customersArray.size(); i++) {
-                System.out.println(i+1 + ")" + customersArray.get(i).toString());
-            }
-            System.out.println("---------- Список покупателей ----------");
-        } else {
+        List<Customer> customersArray = customerFacade.findAll();
+        
+        if (customersArray.isEmpty()) {
             System.out.println("\nНет добавленных покупателей\n");
+            return;
         }
+        
+        System.out.println("---------- Список покупателей ----------");
+        for (int i = 0; i < customersArray.size(); i++) {
+            System.out.println(i+1 + ")" + customersArray.get(i).toString());
+        }
+        System.out.println("---------- Список покупателей ----------");
     }
     
     private void addHistory(){
+        List<Customer> customersArray = customerFacade.findAll();
+        List<Product> productsArray = productFacade.findAll();
+        
         if (!productsArray.isEmpty() || !customersArray.isEmpty()) {
             History history = new History();
 
@@ -193,18 +206,19 @@ public class App {
                 System.out.println(i+1 + ")" + customersArray.get(i).getFirstname()+" "+ customersArray.get(i).getWallet()+"€");
             }
             int customerChoise = inputInt();
+            Customer customer = customerFacade.findById((long)customerChoise-1);
             //----- Выбор покупателя -----
 
-            if (customersArray.get(customerChoise-1).getWallet() >= productsArray.get(productChoise-1).getPrice()) {
+            if (customer.getWallet() >= productsArray.get(productChoise-1).getPrice()) {
                 history.setCustomer(customersArray.get(customerChoise-1));
                 history.setProduct(productsArray.get(productChoise-1));
                 history.setPurchase(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                customersArray.get(customerChoise-1).setWallet(customersArray.get(customerChoise-1).getWallet() - productsArray.get(productChoise-1).getPrice());
+                customer.setWallet(customer.getWallet() - productsArray.get(productChoise-1).getPrice());
                 shopStonks += productsArray.get(productChoise-1).getPrice();
                 
-                historysArray.add(history);
-                keeping.saveHistorys(historysArray);
-                keeping.saveCustomers(customersArray);
+                customerFacade.edit(customer);
+                historyFacade.edit(history);
+                
             } else {
                 System.out.println("Недостаточно денег");
             }
@@ -214,36 +228,45 @@ public class App {
     }
     
     private void showHistorys(){
-        if (!historysArray.isEmpty()) {
-            System.out.println("---------- Список историй покупок ----------");
-            for (int i = 0; i < historysArray.size(); i++) {
-                System.out.println(i+1 + ")" + historysArray.get(i).toString());
-            }
-            System.out.println("---------- Список историй покупок ----------");
-        } else {
+        List<History> historysArray = historyFacade.findAll();
+        if (historysArray.isEmpty()) {
             System.out.println("\nНет историй покупок\n");
+            return;
         }
+        
+        System.out.println("---------- Список историй покупок ----------");
+        for (int i = 0; i < historysArray.size(); i++) {
+            System.out.println(i+1 + ")" + historysArray.get(i).toString());
+        }
+        System.out.println("---------- Список историй покупок ----------");
     }
     
     private void addMoneyToCustomer(){
-        if (!customersArray.isEmpty()) {
-            System.out.println("---------- Список покупателей ----------");
-            for (int i = 0; i < customersArray.size(); i++) {
-                System.out.println(i+1 + ")" + customersArray.get(i).toString());
-            }
-            System.out.println("---------- Список покупателей ----------");
-            System.out.print("Выберите покупателя --> ");
-            int customerToAdd = inputInt();
-            System.out.print("Сумма для добавления --> ");
-            double moneyToAdd = scanner.nextDouble();
-            customersArray.get(customerToAdd-1).setWallet(customersArray.get(customerToAdd-1).getWallet() + moneyToAdd);
-            keeping.saveCustomers(customersArray);
-        } else {
+        List<Customer> customersArray = customerFacade.findAll();
+        
+        if (customersArray.isEmpty()) {
             System.out.println("\nНет добавленных покупателей\n");
         }
+        
+        System.out.println("---------- Список покупателей ----------");
+        for (int i = 0; i < customersArray.size(); i++) {
+            System.out.println(i+1 + ")" + customersArray.get(i).toString());
+        }
+        System.out.println("---------- Список покупателей ----------");
+        System.out.print("Выберите покупателя --> ");
+        int numberOfCustomerToAdd = inputInt();
+        Customer customer = customerFacade.findById((long)numberOfCustomerToAdd-1);
+        
+        System.out.print("Сумма для добавления --> ");
+        double moneyToAdd = inputDouble();
+        
+        customer.setWallet(customer.getWallet() + moneyToAdd);
+        customerFacade.edit(customer);
     }
     
     private void showStonksForMonth(){
+        List<History> historysArray = historyFacade.findAll();
+        
         System.out.print("Выберите месяц(1-12) -->");
         int month = inputInt();
         double stonks = 0;
@@ -259,6 +282,7 @@ public class App {
     
     private double countStonks(){
         double stonks = 0;
+        List<History> historysArray = historyFacade.findAll();
         
         for (int i = 0; i < historysArray.size(); i++) {
             stonks += historysArray.get(i).getProduct().getPrice();
@@ -270,7 +294,7 @@ public class App {
     private int inputInt() {
 	do {
             try {
-                String inputedNumber = scanner.next();
+                String inputedNumber = scanner.nextLine();
                 return Integer.parseInt(inputedNumber);
             } catch(Exception e) {
                 System.out.println("Введены неверные данные.");
@@ -282,7 +306,7 @@ public class App {
     private double inputDouble() {
 	do {
             try {
-                String inputedNumber = scanner.next();
+                String inputedNumber = scanner.nextLine();
                 return Double.parseDouble(inputedNumber);
             } catch(Exception e) {
                 System.out.println("Введены неверные данные.");
