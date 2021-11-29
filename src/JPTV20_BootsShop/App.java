@@ -273,9 +273,7 @@ public class App {
                 stonks += historysArray.get(i).getProduct().getPrice();
             }
         }
-        if (stonks != 0) {
-           System.out.println("Прибыль магазина за " + monthsNames[month-1] + ": " + stonks + "€"); 
-        }
+        System.out.println("Прибыль магазина за " + monthsNames[month-1] + ": " + stonks + "€"); 
     }
     
     private double countStonks(){
