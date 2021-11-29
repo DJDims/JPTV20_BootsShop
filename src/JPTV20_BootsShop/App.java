@@ -7,15 +7,15 @@ import Interfaces.Keeping;
 import java.util.List;
 import java.util.Scanner;
 
-import classes.Customer;
-import classes.History;
-import classes.Product;
+import Classes.Customer;
+import Classes.History;
+import Classes.Product;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 
 import java.util.Date;
-import tools.SaverToBase;
+import Tools.SaverToBase;
 
 public class App {
     Scanner scanner = new Scanner(System.in);
@@ -196,6 +196,7 @@ public class App {
                 System.out.println(i+1 + ")" + productsArray.get(i).getBrand()+" "+ productsArray.get(i).getPrice()+"€");
             }
             int productChoise = inputInt();
+            Product product = productFacade.findById((long)productChoise);
             //----- Выбор товара -----
 
             //----- Выбор покупателя -----
@@ -204,15 +205,15 @@ public class App {
                 System.out.println(i+1 + ")" + customersArray.get(i).getFirstname()+" "+ customersArray.get(i).getWallet()+"€");
             }
             int customerChoise = inputInt();
-            Customer customer = customerFacade.findById((long)customerChoise-1);
+            Customer customer = customerFacade.findById((long)customerChoise);
             //----- Выбор покупателя -----
 
-            if (customer.getWallet() >= productsArray.get(productChoise-1).getPrice()) {
-                history.setCustomer(customersArray.get(customerChoise-1));
-                history.setProduct(productsArray.get(productChoise-1));
+            if (customer.getWallet() >= product.getPrice()) {
+                history.setCustomer(customer);
+                history.setProduct(product);
                 history.setPurchase(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                customer.setWallet(customer.getWallet() - productsArray.get(productChoise-1).getPrice());
-                shopStonks += productsArray.get(productChoise-1).getPrice();
+                customer.setWallet(customer.getWallet() - product.getPrice());
+                shopStonks += product.getPrice();
                 
                 customerFacade.edit(customer);
                 historyFacade.edit(history);

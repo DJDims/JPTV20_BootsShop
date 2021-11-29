@@ -1,11 +1,11 @@
 
 package Facade;
 
-import classes.Product;
+import Classes.Product;
 import javax.persistence.EntityManager;
-import tools.Singleton;
+import Tools.Singleton;
 
-public class ProductFacade extends AbstractFacade{
+public class ProductFacade extends AbstractFacade<Product>{
     
     private EntityManager em;
 

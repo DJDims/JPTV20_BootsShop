@@ -2,9 +2,9 @@ package Interfaces;
 
 import java.util.List;
 
-import classes.Customer;
-import classes.History;
-import classes.Product;
+import Classes.Customer;
+import Classes.History;
+import Classes.Product;
 
 public interface Keeping {
     public void saveProducts(List<Product> productsArray);

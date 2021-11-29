@@ -1,10 +1,10 @@
 
-package tools;
+package Tools;
 
 import Interfaces.Keeping;
-import classes.Customer;
-import classes.History;
-import classes.Product;
+import Classes.Customer;
+import Classes.History;
+import Classes.Product;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

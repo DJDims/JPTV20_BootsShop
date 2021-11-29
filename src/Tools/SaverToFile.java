@@ -1,4 +1,4 @@
-package tools;
+package Tools;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,9 +9,9 @@ import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import classes.Customer;
-import classes.History;
-import classes.Product;
+import Classes.Customer;
+import Classes.History;
+import Classes.Product;
 import Interfaces.Keeping;
 import java.util.ArrayList;
 import java.util.List;
